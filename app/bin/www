@@ -7,13 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('app:server');
 var http = require('http');
+const config = require('../../config/config')();
 
 /**
  * Get port from environment and store in Express.
  */
 
 // eslint-disable-next-line no-undef
-var port = normalizePort(process.env.PORT || '3000');
+console.log(config);
+var port = normalizePort(config.port);
 app.set('port', port);
 
 /**
