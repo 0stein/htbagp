@@ -1,18 +1,24 @@
 const express = require('express');
+const slonik = require('../../config/dbslonik');
 const router = express.Router();
-const slonik = require('slonik');
 
-const pool = slonik.createPool('postgresql://scott:scott@localhost:5432/scottdb')
+const pool = slonik.getConnection();
+const sql = slonik.sql;
 
 /* GET home page. */
-router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
+router.get('/', async (req, res) => {
+  const result = await pool.query(sql`SELECT id, title FROM article`);
+  const rows = result.rows;
+  console.log(rows);
+  res.render('index', { title: 'Express', rows });
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body);
-  const post = req.body;
-  pool.query(slonik.sql`INSERT INTO post (title, content) VALUES (${post.title}, ${post.content})`)
-  res.redirect('/');
-})
+router.post('/', async (req, res) => {
+  const article = req.body;
+  await pool.query(
+    sql`INSERT INTO article (title, content) VALUES (${article.title}, ${article.content})`
+  );
+  res.redirect('/list');
+});
+
 module.exports = router;

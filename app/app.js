@@ -6,14 +6,15 @@ var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var articleRouter = require('./routes/article');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
 // view engine setup
 // eslint-disable-next-line no-undef
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hjs');
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,12 +25,13 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//routing
+app.use('/list', indexRouter);
+app.use('/article', articleRouter);
+app.use('/', loginRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  console.log('-------');
   next(createError(404));
 });
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width initial-scale=1.0")
+    style 
+      include ../public/stylesheets/style.css
+    title 자유게시판
+  body
+    h1 header
+    form(action="/list" method="post")
+      label title
+        input(type="text" name="title")
+      label content
+        textarea(name="content" cols="30" rows="10")
+      input(type="submit" value="제출")
+    include list.pug
